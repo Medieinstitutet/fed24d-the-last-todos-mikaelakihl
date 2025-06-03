@@ -6,7 +6,7 @@ import { Todo } from "../models/Todo"
  
 export const TodoApp = () => { // Bygger hela appen
 
-    const [todoList, setTodoList] = useState([
+    const [todoList, setTodoList] = useState([     // Hårdkoda tre new todo i en lista som använder state - todolist 
         new Todo('Study', 'stressful', false),
         new Todo('Shop groceries', 'important', false),
         new Todo('Go to the gym', 'fun', false)
@@ -28,7 +28,7 @@ export const TodoApp = () => { // Bygger hela appen
     
 }    
 
-// Hårdkoda tre new todo i en lista som använder state - todolist 
+
 
 // Skapa funktion för ny todo och lägg den sist i burken genom att skapa kopia ... 
 
