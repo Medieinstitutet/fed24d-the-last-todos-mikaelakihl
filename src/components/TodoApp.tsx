@@ -23,7 +23,17 @@ export const TodoApp = () => { // Bygger hela appen
       
         setTodoList(todoList.filter((todo) => todo.id !== id));
       };
-
+      
+      const toggleTodoIsDone = (id: number) => {  
+        setTodoList(
+            todoList.map((todo) => {
+                if (todo.id === id) {
+                    return {...todo, isDone: !todo.isDone};
+                }
+                return todo;
+            })
+        )}
+    
     
     return(
     <section>
@@ -33,7 +43,7 @@ export const TodoApp = () => { // Bygger hela appen
                 <li>
                 {todo.title} {todo.emotion} {todo.isDone ? 'Done': 'Not done yet'}
                 <button onClick={() =>handleDeleteTodoByID(todo.id)}>Delete</button>
-                <button>Done</button>   
+                <button onClick={()=> toggleTodoIsDone(todo.id)}>Done</button>   
                 </li>
             ))}
         </ul>
