@@ -1,0 +1,1 @@
+// Skapa ritning för todo genom class och använd constructor 
