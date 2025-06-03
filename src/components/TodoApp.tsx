@@ -2,6 +2,7 @@
 
 import { useState } from "react"
 import { Todo } from "../models/Todo"
+import { TodoForm } from "./TodoForm"
 
  
 export const TodoApp = () => { // Bygger hela appen
@@ -12,10 +13,15 @@ export const TodoApp = () => { // Bygger hela appen
         new Todo('Go to the gym', 'fun', false)
     ])
 
+    const addNewTodo = (newTodo: Todo) => {  // Skapa funktion för ny todo och lägg den sist i burken genom att skapa kopia ... 
+        setTodoList((prevTodos) => [...prevTodos,newTodo]);
+    }
+
     console.log(setTodoList);
     
     return(
     <section>
+        <TodoForm onAddTodo={addTodo}/>
         <ul>
             {todoList.map((todo) => (
                 <li>
@@ -30,7 +36,7 @@ export const TodoApp = () => { // Bygger hela appen
 
 
 
-// Skapa funktion för ny todo och lägg den sist i burken genom att skapa kopia ... 
+
 
 // Skapa funktion för att radera todo genom filter som ska triggas av Delete knapp
 
