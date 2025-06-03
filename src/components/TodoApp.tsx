@@ -14,18 +14,26 @@ export const TodoApp = () => { // Bygger hela appen
     ])
 
     const addNewTodo = (newTodo: Todo) => {  // Skapa funktion för ny todo och lägg den sist i burken genom att skapa kopia ... 
-        setTodoList((prevTodos) => [...prevTodos,newTodo]);
+        setTodoList((prevTodos) => [...prevTodos,newTodo]); 
     }
 
-    console.log(setTodoList);
+    const handleDeleteTodoByID = (id: number) => {  //Tar emot id på todo och hanterar borttagning, anropas i Delete knappen.
+        console.log("Innan filter:", todoList);
+        console.log("Efter filter:", todoList.filter((todo) => todo.id !== id));
+      
+        setTodoList(todoList.filter((todo) => todo.id !== id));
+      };
+
     
     return(
     <section>
-        <TodoForm onAddTodo={addTodo}/>
+        <TodoForm onAddTodo={addNewTodo}/>
         <ul>
             {todoList.map((todo) => (
                 <li>
-                {todo.title} {todo.emotion} {todo.isDone ? 'Done': 'Not done yet'}   
+                {todo.title} {todo.emotion} {todo.isDone ? 'Done': 'Not done yet'}
+                <button onClick={() =>handleDeleteTodoByID(todo.id)}>Delete</button>
+                <button>Done</button>   
                 </li>
             ))}
         </ul>
