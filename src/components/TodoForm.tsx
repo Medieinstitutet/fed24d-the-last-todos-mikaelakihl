@@ -1,5 +1,6 @@
 import { useState, type FormEvent } from "react" // Importera verktygslådan - verktyg för att komma ihåg saker, Något som hjälper oss att veta när vi trycker på knappen i formulär och ritningen för vår todo
 import { Todo } from "../models/Todo";
+import { Plus } from 'lucide-react';
 
 type TodoFormProps = {
     onAddTodo: (todo: Todo) => void;
@@ -28,16 +29,15 @@ export const TodoForm = ({onAddTodo}:TodoFormProps) => {   //Vi bygger ett formu
 
     return(
         <form onSubmit={handleSubmit} className="space-y-2">
-                <h2 className="text-2xl font-bold mb-2">Add Todo</h2>
+                <h1 className="text-3xl font-bold mb-5 uppercase">Add new Todo</h1>
                 <div className="max-w-md mx-auto">
                 <label>
-                    Name of Todo 
-                    <input className="w-full p-2 border bg-yellow-100 border-white rounded" type="text" value={title} onChange={(e)=>setTitle(e.target.value)} />
+                    <input placeholder="Name of Todo" className="w-full p-2 border bg-yellow-100 border-white rounded-lg" type="text" value={title} onChange={(e)=>setTitle(e.target.value)} />
                 </label>
                 </div>
                 <div className="max-w-md mx-auto">
                 <label>
-                    <select className="w-full p-2 border bg-yellow-100 border-white rounded" value={emotion} onChange={(e)=>setEmotion(e.target.value)}>
+                    <select className="w-full p-2 border bg-yellow-100 border-white rounded-lg" value={emotion} onChange={(e)=>setEmotion(e.target.value)}>
                         Emotion?
                         <option value={''}>Feeling</option>
                         <option value={'fun'}>😃 Fun</option>
@@ -53,7 +53,7 @@ export const TodoForm = ({onAddTodo}:TodoFormProps) => {   //Vi bygger ett formu
                     <input type="checkbox" checked={isDone} onChange={(e)=>setIsDone(e.target.checked)} />
                 </label>
                 </div> */}
-                <button>Add</button>
+                <button><Plus /></button>
             </form>
     )
 }
