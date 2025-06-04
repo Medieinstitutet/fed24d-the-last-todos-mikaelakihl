@@ -37,10 +37,10 @@ export const TodoForm = ({onAddTodo}:TodoFormProps) => {   //Vi bygger ett formu
                     <select value={emotion} onChange={(e)=>setEmotion(e.target.value)}>
                         Emotion?
                         <option value={''}>Feeling</option>
-                        <option value={'fun'}>Fun</option>
-                        <option value={'stressful'}>Stressful</option>
-                        <option value={'important'}>Important</option>
-                        <option value={'boring'} >Boring</option>
+                        <option value={'fun'}>😃 Fun</option>
+                        <option value={'stressful'}>😰 Stressful</option>
+                        <option value={'important'}>❗ Important</option>
+                        <option value={'boring'}> 😒 Boring</option>
                     </select>
                 </label>
                 <label>
