@@ -23,27 +23,34 @@ export const TodoApp = () => { // Bygger hela appen
       
         setTodoList(todoList.filter((todo) => todo.id !== id));
       };
-      
-      const toggleTodoIsDone = (id: number) => {  
-        setTodoList(
-            todoList.map((todo) => {
-                if (todo.id === id) {
-                    return {...todo, isDone: !todo.isDone};
-                }
-                return todo;
-            })
-        )}
     
+    const toggleTodoIsDone = (id: number) => {
+        setTodoList(
+          todoList.map((todo) =>
+            todo.id === id ? { ...todo, isDone: !todo.isDone } : todo
+          )
+        );
+      };
+      
     
     return(
     <section>
         <TodoForm onAddTodo={addNewTodo}/>
         <ul>
-            {todoList.map((todo) => (
+            {todoList.filter(todo=>!todo.isDone).map(todo => (
                 <li>
                 {todo.title} {todo.emotion} {todo.isDone ? 'Done': 'Not done yet'}
                 <button onClick={() =>handleDeleteTodoByID(todo.id)}>Delete</button>
-                <button onClick={()=> toggleTodoIsDone(todo.id)}>Done</button>   
+                <button onClick={()=> toggleTodoIsDone(todo.id)}>{todo.isDone? 'Undo': 'Done'}</button>   
+                </li>
+            ))}
+        </ul>
+        <ul>
+            {todoList.filter(todo=>todo.isDone).map(todo => (
+                <li>
+                {todo.title} {todo.emotion} {todo.isDone ? 'Done': 'Not done yet'}
+                <button onClick={() =>handleDeleteTodoByID(todo.id)}>Delete</button>
+                <button onClick={()=> toggleTodoIsDone(todo.id)}>{todo.isDone? 'Undo': 'Done'}</button>   
                 </li>
             ))}
         </ul>
