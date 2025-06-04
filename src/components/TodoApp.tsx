@@ -6,6 +6,8 @@ import { TodoForm } from "./TodoForm"
 import { Trash2 } from 'lucide-react';
 import { Check } from 'lucide-react';
 import { Undo2 } from 'lucide-react';
+import { CalendarArrowUp } from 'lucide-react';
+import { CalendarArrowDown } from 'lucide-react';
 
  
 export const TodoApp = () => { // Bygger hela appen
@@ -34,6 +36,14 @@ export const TodoApp = () => { // Bygger hela appen
           )
         );
       };
+
+      const [sortNewTodoFirst, setSortNewTodoFirst] = useState(true);
+
+      const sortedActiveTodos = [...todoList]
+      .filter(todo => !todo.isDone)
+      .sort((a,b) => {
+        return sortNewTodoFirst ? b.id - a.id : a.id - b.id;
+      });
 
       const getBgColorForEmotion = (todo: Todo) => {
         if (!todo.isDone) return 'bg-white';
@@ -74,8 +84,11 @@ export const TodoApp = () => { // Bygger hela appen
         <div className="grid grid-cols-1 mt-50 md:grid-cols-2 gap-20">
         <ul>
             <h2 className="text-lg font-bold mb-2 uppercase">Todos</h2>
-            
-            {todoList.filter(todo=>!todo.isDone).map(todo => (
+            <div>
+                <button onClick={()=> setSortNewTodoFirst(prev => !prev)}>{sortNewTodoFirst? <CalendarArrowDown/>: <CalendarArrowUp />}</button> 
+                <button>Emotion</button>
+                </div>
+                {sortedActiveTodos.map(todo => (
             <li key={todo.id} className={` flex justify-between items-center rounded-lg p-2 mb-2 transition-colors duration-300 bg-yellow-50 ${getBgColorForEmotion(todo)}`}>
             <span>{getEmotionEmoji(todo.emotion)}<span className="ml-5">{todo.title}</span></span> 
             <div className="flex gap-2 ml-2">
