@@ -27,14 +27,17 @@ export const TodoForm = ({onAddTodo}:TodoFormProps) => {   //Vi bygger ett formu
 
 
     return(
-        <form onSubmit={handleSubmit}>
-                <h2>Add Todo</h2>
+        <form onSubmit={handleSubmit} className="space-y-2">
+                <h2 className="text-2xl font-bold mb-2">Add Todo</h2>
+                <div className="max-w-md mx-auto">
                 <label>
-                    Todo-name
-                    <input type="text" value={title} onChange={(e)=>setTitle(e.target.value)} />
+                    Name of Todo 
+                    <input className="w-full p-2 border bg-yellow-100 border-white rounded" type="text" value={title} onChange={(e)=>setTitle(e.target.value)} />
                 </label>
+                </div>
+                <div className="max-w-md mx-auto">
                 <label>
-                    <select value={emotion} onChange={(e)=>setEmotion(e.target.value)}>
+                    <select className="w-full p-2 border bg-yellow-100 border-white rounded" value={emotion} onChange={(e)=>setEmotion(e.target.value)}>
                         Emotion?
                         <option value={''}>Feeling</option>
                         <option value={'fun'}>😃 Fun</option>
@@ -43,10 +46,13 @@ export const TodoForm = ({onAddTodo}:TodoFormProps) => {   //Vi bygger ett formu
                         <option value={'boring'}> 😒 Boring</option>
                     </select>
                 </label>
+                </div>
+                {/* <div className="max-w-md mx-auto">
                 <label>
                     Is done? 
                     <input type="checkbox" checked={isDone} onChange={(e)=>setIsDone(e.target.checked)} />
                 </label>
+                </div> */}
                 <button>Add</button>
             </form>
     )
