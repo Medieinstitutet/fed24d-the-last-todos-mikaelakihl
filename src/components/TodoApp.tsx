@@ -3,6 +3,9 @@
 import { useState } from "react"
 import { Todo } from "../models/Todo"
 import { TodoForm } from "./TodoForm"
+import { Trash2 } from 'lucide-react';
+import { Check } from 'lucide-react';
+import { Undo2 } from 'lucide-react';
 
  
 export const TodoApp = () => { // Bygger hela appen
@@ -73,10 +76,10 @@ export const TodoApp = () => { // Bygger hela appen
             <h2 className="text-lg font-bold mb-2">Todos</h2>
             {todoList.filter(todo=>!todo.isDone).map(todo => (
             <li key={todo.id} className={` flex justify-between items-center rounded p-2 mb-2 transition-colors duration-300 bg-yellow-50 ${getBgColorForEmotion(todo)}`}>
-            <span>{todo.title} {getEmotionEmoji(todo.emotion)}</span> 
+            <span>{getEmotionEmoji(todo.emotion)} {todo.title} </span> 
             <div className="flex gap-2">
-                <button onClick={() =>handleDeleteTodoByID(todo.id)}>Delete</button>
-                <button onClick={()=> toggleTodoIsDone(todo.id)}>{todo.isDone? 'Undo': 'Done'}</button> 
+                <button onClick={() =>handleDeleteTodoByID(todo.id)}><Trash2 className="w-5 h-5"/></button>
+                <button onClick={()=> toggleTodoIsDone(todo.id)}>{todo.isDone? <Undo2 />: <Check />}</button> 
             </div>  
             </li>
             ))}
@@ -87,8 +90,8 @@ export const TodoApp = () => { // Bygger hela appen
                 <li className="flex justify-between items-center rounded p-2 mb-2 transition-colors duration-300 bg-yellow-50">
                 <span>{todo.title}</span> 
                 <div className="flex gap-2">
-                    <button onClick={() =>handleDeleteTodoByID(todo.id)}>Delete</button>
-                    <button onClick={()=> toggleTodoIsDone(todo.id)}>{todo.isDone? 'Undo': 'Done'}</button>   
+                    <button onClick={() =>handleDeleteTodoByID(todo.id)}><Trash2 className="w-5 h-5"/></button>
+                    <button onClick={()=> toggleTodoIsDone(todo.id)}>{todo.isDone? <Undo2 />: 'Done'}</button>   
                 </div>
                 </li>
             ))}
