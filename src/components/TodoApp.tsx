@@ -12,12 +12,6 @@ import { CalendarArrowDown } from 'lucide-react';
  
 export const TodoApp = () => { // Bygger hela appen
 
-    // const [todoList, setTodoList] = useState([     // Hårdkoda tre new todo i en lista som använder state - todolist 
-    //     new Todo('Study', 'stressful', false),
-    //     new Todo('Shop groceries', 'important', false),
-    //     new Todo('Go to the gym', 'fun', false)
-    // ])
-
     const [todoList, setTodoList] = useState<Todo[]>(() => {
         const stored = localStorage.getItem("todos");
         return stored
@@ -27,41 +21,30 @@ export const TodoApp = () => { // Bygger hela appen
               new Todo("Shop groceries", "important", false),
               new Todo("Go to the gym", "fun", false),
             ];
-      });      
+      }); 
+      
+      const [sortNewTodoFirst, setSortNewTodoFirst] = useState(true);
+      const [sortNewInactiveTodoFirst, setSortNewInactiveTodoFirst] = useState(false);
+  
+      const [emotionFilter, setEmotionFilter] = useState('all');
+      const [emotionDoneFilter, setEmotionDoneFilter] = useState('all');
 
-    // const addNewTodo = (newTodo: Todo) => {  // Skapa funktion för ny todo och lägg den sist i burken genom att skapa kopia ... 
-    //     setTodoList((prevTodos) => [newTodo,...prevTodos]); 
-    // }
-
-    const addNewTodo = (newTodo: Todo) => {
+   
+    const addNewTodo = (newTodo: Todo) => { // Skapa funktion för ny todo och lägg den sist i burken genom att skapa kopia ... 
         const updated = [newTodo, ...todoList];
         setTodoList(updated);
         localStorage.setItem("todos", JSON.stringify(updated));
       };
       
-    // const handleDeleteTodoByID = (id: number) => {  //Tar emot id på todo och hanterar borttagning, anropas i Delete knappen.
-    //     console.log("Innan filter:", todoList);
-    //     console.log("Efter filter:", todoList.filter((todo) => todo.id !== id));
-      
-    //     setTodoList(todoList.filter((todo) => todo.id !== id));
-    //   };
 
-    const handleDeleteTodoByID = (id: number) => {
+    const handleDeleteTodoByID = (id: number) => { //Tar emot id på todo och hanterar borttagning, anropas i Delete knappen.
         const updated = todoList.filter((todo) => todo.id !== id);
         setTodoList(updated);
         localStorage.setItem("todos", JSON.stringify(updated));
       };
       
     
-    // const toggleTodoIsDone = (id: number) => {
-    //     setTodoList(
-    //       todoList.map((todo) =>
-    //         todo.id === id ? { ...todo, isDone: !todo.isDone } : todo
-    //       )
-    //     );
-    //   };
-
-    const toggleTodoIsDone = (id: number) => {
+    const toggleTodoIsDone = (id: number) => { // Skapa funktion för att toggla done or not done genom att använda map och triggas av Done knapp 
         const updated = todoList.map((todo) =>
           todo.id === id ? { ...todo, isDone: !todo.isDone } : todo
         );
@@ -69,12 +52,6 @@ export const TodoApp = () => { // Bygger hela appen
         localStorage.setItem("todos", JSON.stringify(updated));
       };
       
-
-    const [sortNewTodoFirst, setSortNewTodoFirst] = useState(true);
-    const [sortNewInactiveTodoFirst, setSortNewInactiveTodoFirst] = useState(false);
-
-    const [emotionFilter, setEmotionFilter] = useState('all');
-    const [emotionDoneFilter, setEmotionDoneFilter] = useState('all');
 
       const sortedActiveTodos = [...todoList]
         .filter(todo => !todo.isDone) // bara ofärdiga
@@ -86,18 +63,6 @@ export const TodoApp = () => { // Bygger hela appen
         .filter(todo => emotionDoneFilter === 'all' || todo.emotion === emotionDoneFilter) // känsla
         .sort((a, b) => sortNewInactiveTodoFirst ? b.id - a.id : a.id - b.id); // sortera
 
-
-      const getBgColorForEmotion = (todo: Todo) => {
-        if (!todo.isDone) return 'bg-white';
-        switch (todo.emotion) {
-            case 'fun': return 'bg-green-200';
-            case 'stressful': return 'bg-yellow-200';
-            case 'important': return 'bg-red-200';
-            case 'boring': return 'bg-gray-300';
-            default: return 'bg-white';
-
-        }
-      };
 
       const getEmotionEmoji = (emotion: string): string => {
         switch (emotion) {
@@ -113,7 +78,6 @@ export const TodoApp = () => { // Bygger hela appen
             return '❓';
         }
       };
-      
       
     
     return(
@@ -137,7 +101,7 @@ export const TodoApp = () => { // Bygger hela appen
                 </select>
                 </div>
                 {sortedActiveTodos.map(todo => (
-            <li key={todo.id} className={` flex justify-between items-center rounded-lg p-2 mb-2 transition-colors duration-300 bg-yellow-50 ${getBgColorForEmotion(todo)}`}>
+            <li key={todo.id} className="flex justify-between items-center rounded-lg p-2 mb-2 bg-yellow-50">
             <span>{getEmotionEmoji(todo.emotion)}<span className="ml-5">{todo.title}</span></span> 
             <div className="flex gap-2 ml-2">
                 
@@ -163,7 +127,7 @@ export const TodoApp = () => { // Bygger hela appen
                 </select>
                 </div>
                 {sortedInactiveTodos.map(todo => (
-                <li key={todo.id} className="flex justify-between items-center rounded-lg p-2 mb-2 transition-colors duration-300 bg-yellow-50">
+                <li key={todo.id} className="flex justify-between items-center rounded-lg p-2 mb-2 bg-yellow-50">
                 <span className="ml-2">{todo.title}</span> 
                 <div className="flex gap-2">
                     <button onClick={() =>handleDeleteTodoByID(todo.id)}><Trash2 className="w-5 h-5"/></button>
@@ -182,8 +146,4 @@ export const TodoApp = () => { // Bygger hela appen
 
 
 
-// Skapa funktion för att radera todo genom filter som ska triggas av Delete knapp
 
-// Skapa funktion för att toggla done or not done genom att använda map och triggas av Done knapp 
-
-// returnera ul med li element genom map och knapp för add och delete. Använd 
