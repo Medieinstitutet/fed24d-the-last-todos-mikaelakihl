@@ -31,6 +31,21 @@ export const TodoApp = () => { // Bygger hela appen
           )
         );
       };
+      const getEmotionEmoji = (emotion: string): string => {
+        switch (emotion) {
+          case 'fun':
+            return '😃';
+          case 'stressful':
+            return '😰';
+          case 'important':
+            return '❗';
+          case 'boring':
+            return '😒';
+          default:
+            return '❓';
+        }
+      };
+      
       
     
     return(
@@ -39,7 +54,7 @@ export const TodoApp = () => { // Bygger hela appen
         <ul>
             {todoList.filter(todo=>!todo.isDone).map(todo => (
                 <li>
-                {todo.title} {todo.emotion} {todo.isDone ? 'Done': 'Not done yet'}
+                {todo.title} {getEmotionEmoji(todo.emotion)} {todo.isDone ? '✔️': '✖️'}
                 <button onClick={() =>handleDeleteTodoByID(todo.id)}>Delete</button>
                 <button onClick={()=> toggleTodoIsDone(todo.id)}>{todo.isDone? 'Undo': 'Done'}</button>   
                 </li>
@@ -48,7 +63,7 @@ export const TodoApp = () => { // Bygger hela appen
         <ul>
             {todoList.filter(todo=>todo.isDone).map(todo => (
                 <li>
-                {todo.title} {todo.emotion} {todo.isDone ? 'Done': 'Not done yet'}
+                {todo.title} {todo.emotion} {todo.isDone ? '✔️': '✖️'}
                 <button onClick={() =>handleDeleteTodoByID(todo.id)}>Delete</button>
                 <button onClick={()=> toggleTodoIsDone(todo.id)}>{todo.isDone? 'Undo': 'Done'}</button>   
                 </li>
