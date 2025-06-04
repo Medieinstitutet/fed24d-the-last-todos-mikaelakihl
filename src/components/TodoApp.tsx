@@ -63,27 +63,33 @@ export const TodoApp = () => { // Bygger hela appen
     
     return(
     <section className=" p-10 space-y-4">
+
         <div className="bg-yellow-50 p-4">
           <TodoForm onAddTodo={addNewTodo}/>  
         </div>
+
         <div className="grid grid-cols-1 mt-50 md:grid-cols-2 gap-20">
         <ul>
             <h2 className="text-lg font-bold mb-2">Todos</h2>
             {todoList.filter(todo=>!todo.isDone).map(todo => (
-                <li key={todo.id} className={`rounded p-2 mb-2 transition-colors duration-300 bg-yellow-50 ${getBgColorForEmotion(todo)}`}>
-                {todo.title} {getEmotionEmoji(todo.emotion)}
+            <li key={todo.id} className={` flex justify-between items-center rounded p-2 mb-2 transition-colors duration-300 bg-yellow-50 ${getBgColorForEmotion(todo)}`}>
+            <span>{todo.title} {getEmotionEmoji(todo.emotion)}</span> 
+            <div className="flex gap-2">
                 <button onClick={() =>handleDeleteTodoByID(todo.id)}>Delete</button>
-                <button onClick={()=> toggleTodoIsDone(todo.id)}>{todo.isDone? 'Undo': 'Done'}</button>   
-                </li>
+                <button onClick={()=> toggleTodoIsDone(todo.id)}>{todo.isDone? 'Undo': 'Done'}</button> 
+            </div>  
+            </li>
             ))}
         </ul>
         <ul>
             <h2 className="text-lg font-bold mb-2">Finished todos</h2>
             {todoList.filter(todo=>todo.isDone).map(todo => (
-                <li className="bg-yellow-50">
-                {todo.title} {todo.emotion}
-                <button onClick={() =>handleDeleteTodoByID(todo.id)}>Delete</button>
-                <button onClick={()=> toggleTodoIsDone(todo.id)}>{todo.isDone? 'Undo': 'Done'}</button>   
+                <li className="flex justify-between items-center rounded p-2 mb-2 transition-colors duration-300 bg-yellow-50">
+                <span>{todo.title}</span> 
+                <div className="flex gap-2">
+                    <button onClick={() =>handleDeleteTodoByID(todo.id)}>Delete</button>
+                    <button onClick={()=> toggleTodoIsDone(todo.id)}>{todo.isDone? 'Undo': 'Done'}</button>   
+                </div>
                 </li>
             ))}
         </ul>
