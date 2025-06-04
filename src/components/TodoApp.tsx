@@ -12,30 +12,63 @@ import { CalendarArrowDown } from 'lucide-react';
  
 export const TodoApp = () => { // Bygger hela appen
 
-    const [todoList, setTodoList] = useState([     // Hårdkoda tre new todo i en lista som använder state - todolist 
-        new Todo('Study', 'stressful', false),
-        new Todo('Shop groceries', 'important', false),
-        new Todo('Go to the gym', 'fun', false)
-    ])
+    // const [todoList, setTodoList] = useState([     // Hårdkoda tre new todo i en lista som använder state - todolist 
+    //     new Todo('Study', 'stressful', false),
+    //     new Todo('Shop groceries', 'important', false),
+    //     new Todo('Go to the gym', 'fun', false)
+    // ])
 
-    const addNewTodo = (newTodo: Todo) => {  // Skapa funktion för ny todo och lägg den sist i burken genom att skapa kopia ... 
-        setTodoList((prevTodos) => [newTodo,...prevTodos]); 
-    }
+    const [todoList, setTodoList] = useState<Todo[]>(() => {
+        const stored = localStorage.getItem("todos");
+        return stored
+        ? JSON.parse(stored).map((t: Todo) => new Todo(t.title, t.emotion, t.isDone, t.id))
+          : [
+              new Todo("Study", "stressful", false),
+              new Todo("Shop groceries", "important", false),
+              new Todo("Go to the gym", "fun", false),
+            ];
+      });      
 
-    const handleDeleteTodoByID = (id: number) => {  //Tar emot id på todo och hanterar borttagning, anropas i Delete knappen.
-        console.log("Innan filter:", todoList);
-        console.log("Efter filter:", todoList.filter((todo) => todo.id !== id));
+    // const addNewTodo = (newTodo: Todo) => {  // Skapa funktion för ny todo och lägg den sist i burken genom att skapa kopia ... 
+    //     setTodoList((prevTodos) => [newTodo,...prevTodos]); 
+    // }
+
+    const addNewTodo = (newTodo: Todo) => {
+        const updated = [newTodo, ...todoList];
+        setTodoList(updated);
+        localStorage.setItem("todos", JSON.stringify(updated));
+      };
       
-        setTodoList(todoList.filter((todo) => todo.id !== id));
+    // const handleDeleteTodoByID = (id: number) => {  //Tar emot id på todo och hanterar borttagning, anropas i Delete knappen.
+    //     console.log("Innan filter:", todoList);
+    //     console.log("Efter filter:", todoList.filter((todo) => todo.id !== id));
+      
+    //     setTodoList(todoList.filter((todo) => todo.id !== id));
+    //   };
+
+    const handleDeleteTodoByID = (id: number) => {
+        const updated = todoList.filter((todo) => todo.id !== id);
+        setTodoList(updated);
+        localStorage.setItem("todos", JSON.stringify(updated));
       };
+      
     
+    // const toggleTodoIsDone = (id: number) => {
+    //     setTodoList(
+    //       todoList.map((todo) =>
+    //         todo.id === id ? { ...todo, isDone: !todo.isDone } : todo
+    //       )
+    //     );
+    //   };
+
     const toggleTodoIsDone = (id: number) => {
-        setTodoList(
-          todoList.map((todo) =>
-            todo.id === id ? { ...todo, isDone: !todo.isDone } : todo
-          )
+        const updated = todoList.map((todo) =>
+          todo.id === id ? { ...todo, isDone: !todo.isDone } : todo
         );
+        setTodoList(updated);
+        localStorage.setItem("todos", JSON.stringify(updated));
       };
+      
 
     const [sortNewTodoFirst, setSortNewTodoFirst] = useState(true);
     const [sortNewInactiveTodoFirst, setSortNewInactiveTodoFirst] = useState(false);
@@ -130,7 +163,7 @@ export const TodoApp = () => { // Bygger hela appen
                 </select>
                 </div>
                 {sortedInactiveTodos.map(todo => (
-                <li className="flex justify-between items-center rounded-lg p-2 mb-2 transition-colors duration-300 bg-yellow-50">
+                <li key={todo.id} className="flex justify-between items-center rounded-lg p-2 mb-2 transition-colors duration-300 bg-yellow-50">
                 <span className="ml-2">{todo.title}</span> 
                 <div className="flex gap-2">
                     <button onClick={() =>handleDeleteTodoByID(todo.id)}><Trash2 className="w-5 h-5"/></button>
